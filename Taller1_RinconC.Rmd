@@ -1,0 +1,88 @@
+---
+title: "Taller 1"
+author: "Maria Paula Rincon Cepeda"
+output: html_notebook
+---
+
+# Vectores
+
+a.  Se crea el vector *id*, con una lista de números entre el 10 y el 80. Usando el argumento **length.out**, el cual permite colocar la longitud deseada -en este caso 100- y corroborandose mediante la función **length()**.
+
+```{r}
+id <- seq(from = 10, to = 80 , length.out = 100)
+length(id)
+```
+
+b.  Se coloca una "semilla" para que los datos correspondientes con este informe sean los mismos e iguales a la hora de la entrega. 
+
+Se crea el vector *edad* con la función **sample()** para que de esta manera se generen números aleatorios, al verificar la clase del vector mediante la función **class()**, este arroja que es *integer*.
+
+```{r}
+set.seed(78)
+edad <- sample(25:50,100, replace = TRUE )
+class(edad)
+```
+
+Para probar cuales números del vector son mayores a 35, se crea el vector *edad_mayor35* en el cual se coloca la condición y después se utiliza la función **length**, para contar la cantidad de "TRUE" que están en la función.
+
+```{r}
+
+edad_mayor35 <- edad > 35
+length(edad_mayor35[edad_mayor35 == TRUE])
+
+
+```
+Para esta muestra, 65 números son mayores a 35 en el vector *edad*.
+
+c.  Se crea el vector llamado *nivel_desempeño*, la cual tiene 100 observaciones y un conjunto de categorias elegidas aleatoriamente, estas som : NA, desempeño alto, desempeño medio y desempeño bajo. 
+
+```{r}
+set.seed(7)
+nivel_desempeño <- sample(c("desempeño bajo", "desempeño medio", "desempeño alto", "NA") , size =100 , replace = TRUE)
+class(nivel_desempeño)
+```
+
+Ahora, este vector se convierte en un factor ordenado con 3 niveles. 
+
+```{r}
+nivel_desempeño <-  factor(nivel_desempeño, levels = c("desempeño alto", "desempeño medio" , "desempeño bajo"), ordered = TRUE)
+class(nivel_desempeño)
+```
+
+La función presentada a continuación, nos permite ver cuantas observaciones no son valores faltantes en este vector.
+
+```{r}
+sum(!is.na(nivel_desempeño))
+```
+
+d.  
+
+```{r}
+table(nivel_desempeño)
+desempeño_completos <- nivel_desempeño
+length(desempeño_completos)
+```
+
+# Tibble
+```{r}
+datos <- tibble[id,edades,nivel_desempeño]
+```
+ 
+
+# Limpiar el espacio de trabajo 
+
+```{r}
+rm(list = ls())
+```
+
+# Estructura de control 
+
+```{r}
+carpetas <- c("datos", "escrito", "resultados", "imágenes", "programas")
+```
+
+# Loop 
+
+
+
+
