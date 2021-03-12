@@ -1,7 +1,9 @@
 ---
 title: "Taller 1"
 author: "Maria Paula Rincon Cepeda"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 # Vectores
@@ -30,7 +32,6 @@ Para probar cuales números del vector son mayores a 35, se crea el vector *edad
 edad_mayor35 <- edad > 35
 length(edad_mayor35[edad_mayor35 == TRUE])
 
-
 ```
 Para esta muestra, 65 números son mayores a 35 en el vector *edad*.
 
@@ -55,20 +56,24 @@ La función presentada a continuación, nos permite ver cuantas observaciones no
 sum(!is.na(nivel_desempeño))
 ```
 
-d.  
+d.  Se crea un nuevo vector titulado *desempeño completos*, en los cuales se encuentra el *nivel desempeños* sin valores faltantes y mediante la función **lenght** se comprueba que estos poseen el mismo número de observaciones del punto anterior (67). 
 
 ```{r}
-table(nivel_desempeño)
-desempeño_completos <- nivel_desempeño
+desempeño_completos <- nivel_desempeño[!is.na(nivel_desempeño)]
 length(desempeño_completos)
 ```
 
 # Tibble
-```{r}
-datos <- tibble[id,edades,nivel_desempeño]
-```
- 
 
+Para crear una base de datos "tibble" es necesario activar el paquete de tidyverse. 
+
+```{r}
+library(tidyverse)
+datos <- tibble(id,edad,nivel_desempeño)
+```
+
+ Por medio de la función **tibble** se crea una base de datos que contiene 100 observaciones y 3 variables. 
+ 
 # Limpiar el espacio de trabajo 
 
 ```{r}
@@ -77,12 +82,84 @@ rm(list = ls())
 
 # Estructura de control 
 
+Se crea el vector carpetas, el cual contiene nombres. Usando las funciones **if** y **else** ,se comprueba la existencia de las carpetas y si estás no están en el directorio, las crea e imprime la frase "La carpeta ____ fue creada con éxito"; pero si estás ya existen, se imprime la frase "La carpeta ____ ya existe"
+
 ```{r}
-carpetas <- c("datos", "escrito", "resultados", "imágenes", "programas")
+carpetas<-c("Datos", "Escrito", "Resultados", "Imágenes")
+dir_carpetas<-function(carpetas){
+  for(i in seq_along(carpetas)){
+    if(dir.exists(carpetas[i])){
+      print(paste("La carpeta", carpetas[i], "ya existe"))
+    }else{dir.create(carpetas[i])
+      print(paste("La carpeta", carpetas[i], "fue creada con éxito"))
+      }
+    }
+  }
+dir_carpetas(carpetas)
+  
 ```
 
 # Loop 
 
+a.  Se precarga la base de datos *mtcars*, la cual tiene 11 variables y 32 observaciones; mediante un loop **for** se extrae la media de cada una de las columnas presentadas en este dataframe. 
 
+```{r}
 
+data(mtcars)
+
+Media_data <- vector("double", length(mtcars))
+
+for (i in seq_along(mtcars) ){
+  Media_data[[i]] <- mean(mtcars[[i]])
+} 
+Media_data
+```
+
+b.  Se carga la base de datos pre configurada en R mediante la libreria *nycflights13*, titulada *flights*, esta tiene 19 variables y 336.776 observaciones. Se realiza un **loop for** para determinar la clase de cada una de estas variables.
+
+```{r}
+#install.packages("nycflights13")
+library("nycflights13")
+data(flights)
+
+x <- c()
+for(i in seq_along(flights)){
+  x[[i]] <- class(flights[[i]])
+}
+x
+  
+```
+
+c.  En el programa se tienen bases de datos preinstaladas, para este caso, se utiliza *iris*, contiene 5 variables y 150 observaciones. Mediante un **loop** se verifica el número de valores únicos en cada columna con la función **unique**. 
+
+```{r}
+data(iris)
+
+y <- c()
+for(i in seq_along(iris)){
+  y[[i]] <- unique(iris[[i]])
+}
+y
+
+```
+
+d. Para generar diez conjuntos de datos aleatorios basados en la distribucion normal es necesario usar **rnorm** y en el paramétro de la media, usamos un vector que contenga los números -10,0,10, y 100. 
+
+```{r}
+conjuntos <- c()
+for(i in 1:10){
+  x <-  c(-10,0,10,100)
+    conjuntos[[i]] <-  rnorm(10,mean = x)
+}
+conjuntos
+```
+
+# Usando funcion lapply  
+
+Se tomará el punto **a** de la sección anterior y con este, se usarála función **lapply** para llegar al mismo resultado al cual se llegó mediante el *loop*. 
+
+```{r}
+Media1 <- lapply(mtcars, mean ,na.rm = TRUE)
+Media1
+```
 
